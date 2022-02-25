@@ -1,0 +1,111 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public enum GameState
+    {
+        RUNNING,
+        MENU
+    }
+
+    public static GameManager instance;
+    public Transform spawnerTransform;
+    public GameState state = GameState.MENU;
+
+    private int amountOfElementToDestroy;
+
+    private List<GameObject> allBall = new List<GameObject>();
+
+    private float levelTimer;
+
+    void Awake()
+    {
+        if (instance != null)
+            Debug.LogWarning("Multiple instance of same Singleton : GameManager");
+        instance = this;
+    }
+
+    private void Start()
+    {
+        amountOfElementToDestroy = FindObjectsOfType<Basic_ObstacleBehaviours>().Length - FindObjectsOfType<Immortal_ObstacleBehaviours>().Length;
+        CanvasManager.instance.SetUpGamePanel(amountOfElementToDestroy);
+
+        Vibration.Init();
+    }
+
+    public void Update()
+    {
+        if (state == GameState.RUNNING)
+            levelTimer += Time.deltaTime;
+
+        CanvasManager.instance.gameTimer.text = GetLevelTimer();
+    }
+
+    /// <summary>
+    /// Spawn the first ball and change the state of the game to RUNNING.
+    /// </summary>
+    /// <param name="ball"></param>
+    public void SpawnFirstBall(GameObject ball)
+    {
+        GameObject firstBall = Instantiate(ball, spawnerTransform.position, Quaternion.identity);
+        state = GameState.RUNNING;
+        allBall.Add(firstBall);
+    }
+
+    /// <summary>
+    /// Reduce the total of Block the player have to kill before he/she win the level
+    /// </summary>
+    public void ReduceAmountofElement()
+    {
+        amountOfElementToDestroy--;
+        CanvasManager.instance.UpdateLevelIndicator(amountOfElementToDestroy);
+        if (amountOfElementToDestroy <= 0)
+            Victory();
+    }
+
+    /// <summary>
+    /// SetUp the victory Panel
+    /// </summary>
+    public void Victory()
+    {
+        ScoreManager.instance.GetScore(Mathf.RoundToInt(levelTimer));
+        DestroyAllBall();
+        PlayerController.instance.canMove = false;
+        CanvasManager.instance.VictoryPanel();
+
+        state = GameState.MENU;
+    }
+
+    /// <summary>
+    /// Destroy all ball in the scene.
+    /// </summary>
+    public void DestroyAllBall()
+    {
+        foreach (var item in allBall)
+        {
+            Destroy(item);
+        }
+
+        allBall.Clear();
+    }
+
+    public string GetLevelTimer()
+    {
+        int minutes, seconde;
+        if (levelTimer > 60)
+        {
+            minutes = (int)levelTimer / 60;
+            seconde = (int)(levelTimer - (minutes * 60));
+            return minutes + " : " + seconde;
+        }
+        else
+            return "00 : " + Mathf.RoundToInt(levelTimer).ToString();
+    }
+
+    public void IncreaseTimer(float amountOfTime)
+    {
+        levelTimer += amountOfTime;
+    }
+}
