@@ -45,9 +45,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     [SerializeField] private float invincibilityTime = 0.3f;
     private Timer invincibilityTimer;
 
+    [Space]
+    [Header("Audio")]
+    [SerializeField] private AudioClip damage_Sound;
+    private AudioSource _Audio;
+
     private void Awake()
     {
         _Rb = GetComponent<Rigidbody>();
+        _Audio = GetComponent<AudioSource>();
         direction = _Rb.position;
 
         if (instance != null)
@@ -163,6 +169,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         StartCoroutine(DamageScale());
         if (canBeHit)
         {
+            _Audio.clip = damage_Sound;
+            _Audio.Play();
+
             GameManager.instance.IncreaseTimer(_IncreaseTimerValue);
             canBeHit = false;
             invincibilityTimer.ResetPlay();

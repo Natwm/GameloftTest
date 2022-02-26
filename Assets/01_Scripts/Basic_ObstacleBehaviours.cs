@@ -37,6 +37,12 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
     [SerializeField] private GameObject indicator_Right;
     [SerializeField] private GameObject indicator_Center;
 
+    [Space]
+    [Header("Audio")]
+    [SerializeField] private AudioClip collision_Sound;
+    [SerializeField] private AudioClip death_Sound;
+    private AudioSource _Audio;
+
     #endregion
 
     private void Awake()
@@ -66,6 +72,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
     private void Start()
     {
         SetUpLifeIndicator();
+        _Audio = GetComponent<AudioSource>();
         //indicator.color = lifeIndicator[_Health];
     }
 
@@ -116,6 +123,8 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int _amountOfDamage)
     {
+        _Audio.Play();
+
         damageSequence.Play();
         StartCoroutine(ImpactCircle());
 

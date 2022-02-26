@@ -28,10 +28,16 @@ public class BallBehaviours : MonoBehaviour
     [Space]
     [SerializeField] float forceTowardPlayer = 75f;
 
+    [Space]
+    [Header("Audio")]
+    [SerializeField] private AudioClip impactObstacle_Sound;
+    [SerializeField] private AudioClip impactWall_Sound;
+    private AudioSource _Audio;
 
     private void Awake()
     {
         Rb = GetComponent<Rigidbody>();
+        _Audio = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -79,6 +85,9 @@ public class BallBehaviours : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<IDamageable>(out collisionObject))
         {
+            _Audio.clip = impactObstacle_Sound;
+            _Audio.Play();
+
             if (isLaunchByTheplayer)
             {
                 HitStop.instance.FreezeFrame(0.15f);
@@ -90,6 +99,9 @@ public class BallBehaviours : MonoBehaviour
             CameraManager.instance.ShakeCam();
             collisionObject.GetDamage(_BallDamage);
         }
+
+        _Audio.clip = impactWall_Sound;
+        _Audio.Play();
 
         ///Clamp the velocity at 25.
         Rb.velocity = Rb.velocity.normalized * 25;

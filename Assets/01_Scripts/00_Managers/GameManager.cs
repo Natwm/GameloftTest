@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
         MENU
     }
 
+
     public static GameManager instance;
+
+
     public Transform spawnerTransform;
     public GameState state = GameState.MENU;
 
@@ -19,6 +22,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject> allBall = new List<GameObject>();
 
     private float levelTimer;
+
+    private bool isPaused = false;
 
     void Awake()
     {
@@ -91,6 +96,11 @@ public class GameManager : MonoBehaviour
         allBall.Clear();
     }
 
+    #region Timer
+    /// <summary>
+    /// Convert the float level Timer into a understanding timer with minutes and seconds
+    /// </summary>
+    /// <returns>  The timer in mm : ss (m = minutes| s = second) </returns>
     public string GetLevelTimer()
     {
         int minutes, seconde;
@@ -101,11 +111,23 @@ public class GameManager : MonoBehaviour
             return minutes + " : " + seconde;
         }
         else
-            return Mathf.RoundToInt(levelTimer).ToString().Length > 1? "00 : " + Mathf.RoundToInt(levelTimer).ToString(): "00 : 0" + Mathf.RoundToInt(levelTimer).ToString();
+            return Mathf.RoundToInt(levelTimer).ToString().Length > 1 ? "00 : " + Mathf.RoundToInt(levelTimer).ToString() : "00 : 0" + Mathf.RoundToInt(levelTimer).ToString();
     }
 
     public void IncreaseTimer(float amountOfTime)
     {
         levelTimer += amountOfTime;
+    }
+    #endregion
+
+    public void PauseGame()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0.0f;
+        }else
+            Time.timeScale = 1.0f;
     }
 }

@@ -12,10 +12,12 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject victoryPanel;
+    [SerializeField] private GameObject pausePanel;
 
     [Header("Text")]
     public TMPro.TMP_Text amoutOfObjectToKill;
     public TMPro.TMP_Text gameTimer;
+    public TMPro.TMP_Text pauseGameTimer;
 
     [Header("Image")]
     [SerializeField] private GameObject handImage;
@@ -40,6 +42,7 @@ public class CanvasManager : MonoBehaviour
     {
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
+        pausePanel.SetActive(false);
 
         handImage.transform.DOMove(pos.transform.position, handMouvementSpeed).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
     }
@@ -81,5 +84,19 @@ public class CanvasManager : MonoBehaviour
     {
         victoryPanel.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
         victoryPanel.SetActive(true);
+    }
+
+    public void ShowPausePanel()
+    {
+        pausePanel.SetActive(!pausePanel.activeSelf);
+
+        if(pausePanel.activeSelf)
+            ShowTimeOnPause();
+
+    }
+
+    public void ShowTimeOnPause()
+    {
+        pauseGameTimer.text = "Timer : " + GameManager.instance.GetLevelTimer();
     }
 }
