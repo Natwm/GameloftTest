@@ -6,13 +6,15 @@ public class BallBehaviours : MonoBehaviour
 {
     private Rigidbody _Rb;
 
-    [Header ("Ball Param")]
+    [Header("Ball Param")]
     [SerializeField] private float _BallSpeed;
     [Min(1)]
     [SerializeField] private int _BallDamage = 1;
 
     [SerializeField] private float _speedModifier = 1f;
+
     private bool firstShoot;
+    private bool isLaunchByTheplayer;
 
     [Space]
     [Header("Timer")]
@@ -20,9 +22,12 @@ public class BallBehaviours : MonoBehaviour
     [SerializeField] float timeBeforeMovingTowardPlayer;
 
     [Space]
+    [Header("vfx")]
+    [SerializeField] private GameObject dustSmokeParticule;
+
+    [Space]
     [SerializeField] float forceTowardPlayer = 75f;
 
-    public Rigidbody Rb { get => _Rb; set => _Rb = value; }
 
     private void Awake()
     {
@@ -48,7 +53,7 @@ public class BallBehaviours : MonoBehaviour
         if (!firstShoot)
             return;
 
-        if(Rb.velocity.magnitude >= Rb.velocity.normalized.magnitude * 25)
+        if (Rb.velocity.magnitude >= Rb.velocity.normalized.magnitude * 25)
             Rb.velocity = Rb.velocity.normalized * 25;
 
     }
@@ -68,14 +73,24 @@ public class BallBehaviours : MonoBehaviour
     {
         IDamageable collisionObject;
 
+        Instantiate(dustSmokeParticule,collision.contacts[0].point,Quaternion.identity);
+
         firstShoot = true;
 
         if (collision.gameObject.TryGetComponent<IDamageable>(out collisionObject))
         {
+            if (isLaunchByTheplayer)
+            {
+                HitStop.instance.FreezeFrame(0.15f);
+
+                isLaunchByTheplayer = false;
+            }
+                
+
             CameraManager.instance.ShakeCam();
             collisionObject.GetDamage(_BallDamage);
         }
-        
+
         ///Clamp the velocity at 25.
         Rb.velocity = Rb.velocity.normalized * 25;
     }
@@ -84,4 +99,11 @@ public class BallBehaviours : MonoBehaviour
     {
         moveToThePlayerTimer.Pause();
     }
+
+    #region GETTER && SETTER
+
+    public Rigidbody Rb { get => _Rb; set => _Rb = value; }
+    public bool IsLaunchByTheplayer { get => isLaunchByTheplayer; set => isLaunchByTheplayer = value; }
+
+    #endregion
 }

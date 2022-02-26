@@ -79,7 +79,7 @@ public class CanvasManager : MonoBehaviour
 
     public void VictoryPanel()
     {
-        victoryPanel.GetComponent<CanvasGroup>().DOFade(1, 0.4f);
+        victoryPanel.GetComponent<CanvasGroup>().DOFade(1, 0.6f);
         victoryPanel.SetActive(true);
     }
 }

@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
             return minutes + " : " + seconde;
         }
         else
-            return "00 : " + Mathf.RoundToInt(levelTimer).ToString();
+            return Mathf.RoundToInt(levelTimer).ToString().Length > 1? "00 : " + Mathf.RoundToInt(levelTimer).ToString(): "00 : 0" + Mathf.RoundToInt(levelTimer).ToString();
     }
 
     public void IncreaseTimer(float amountOfTime)

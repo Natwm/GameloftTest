@@ -50,6 +50,7 @@ public class AttackScript : MonoBehaviour
             {
                 if (!TimeController.instance.SlowMotionTimer.IsStarted())
                 {
+                    print("slowmo");
                     TimeController.instance.StartSlowMotion();
                 }
 
@@ -78,7 +79,6 @@ public class AttackScript : MonoBehaviour
                 PlayerController.instance.Ball.GetComponent<Rigidbody>().velocity = ballSpeed.normalized * 25f;
             }
             
-
             PlayerController.instance.Ball = null;
             return;
         }            
@@ -90,11 +90,17 @@ public class AttackScript : MonoBehaviour
             {
                 Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)PlayerController.instance.Ball.transform.position, PlayerController.instance.CurrentPosition).normalized;
 
-                TimeController.instance.EndSlowMotion();
-                PlayerController.instance.Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                PlayerController.instance.Ball.GetComponent<Rigidbody>().AddForce(launchDirection * 5000f);
-                PlayerController.instance.Ball = null;
+                Rigidbody ball_RB = PlayerController.instance.Ball.GetComponent<Rigidbody>();
+                BallBehaviours ball_BH = PlayerController.instance.Ball.GetComponent<BallBehaviours>();
 
+                TimeController.instance.EndSlowMotion();
+
+                ball_RB.velocity = Vector3.zero;
+                ball_RB.AddForce(launchDirection * 5000f);
+
+                ball_BH.IsLaunchByTheplayer = true;
+
+                PlayerController.instance.Ball = null;
                 LineRendererIndicator.instance.ResetLine();
             }
         }

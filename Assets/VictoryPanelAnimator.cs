@@ -16,8 +16,8 @@ public class VictoryPanelAnimator : MonoBehaviour
     public TMPro.TMP_Text timerText;
 
 
-    private const float INITIAL_DELAY = 0.75f;
-    private const float DELAY_BETWEEN_STAR = 0.2f;
+    private const float INITIAL_DELAY = 1.3f;
+    private const float DELAY_BETWEEN_STAR = 0.3f;
 
     /// <summary>
     /// Initialise all star and there animation

@@ -15,12 +15,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     Vector3 mousePos;
 
     private Vector2 _CurrentPosition;
-    private Vector3 scale;
+    private Vector3 initScale;
 
     [Header("Ball Param")]
     public bool canMove;
     [SerializeField] private float _Speed;
     [SerializeField] private float _MaxBounceAngle;
+    public GameObject visuel;
 
     [Space]
     [Header ("Player Param")]
@@ -33,6 +34,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     [Header ("Clamp")]
     [MinMaxSlider(-10, 10)]
     public MinMax clapPosition;
+
+    [Space]
+    [Header("Animation")]
+    [SerializeField] private Vector3 spreadScale;
+    [SerializeField] private float spreadSpeed;
 
     [Space]
     [Header("Timer")]
@@ -54,7 +60,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Start()
     {
-        scale = transform.localScale;
+        initScale = transform.localScale;
         invincibilityTimer = new Timer(invincibilityTime, CanGetDamaged);
     }
 
@@ -93,9 +99,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void FixedUpdate()
     {
         if (canMove && Ball == null && GameManager.instance.state == GameManager.GameState.RUNNING)
+        {
             _Rb.MovePosition(Vector2.Lerp(_Rb.position, direction, _Speed * Time.deltaTime));
+
+        }
         else
+        {
             _Rb.velocity = Vector3.zero;
+        }
+            
     }
 
     private void LateUpdate()
@@ -133,8 +145,14 @@ public class PlayerController : MonoBehaviour, IDamageable
         transform.DOScaleY(transform.localScale.y + .5f, 0.1f);
 
         yield return new WaitForSeconds(0.1f);
-        transform.localScale = scale;
+        transform.localScale = initScale;
     }
+
+    private void SpreadAnimation(Vector3 newScale)
+    {
+        visuel.transform.DOScale(newScale, spreadSpeed);
+    }
+
     #endregion
 
     #region Interfaces

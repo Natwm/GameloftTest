@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void LoadNextScene()
     {
-        if (SceneManager.sceneCount-1 >= SceneManager.GetActiveScene().buildIndex + 1)
+        if (SceneManager.sceneCountInBuildSettings > SceneManager.GetActiveScene().buildIndex + 1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         else
             LoadMenu();
