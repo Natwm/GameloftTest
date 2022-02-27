@@ -22,8 +22,6 @@ public class DeflectZone : MonoBehaviour
 
     GameObject ball;
 
-    public GameObject a;
-
     public GameObject Ball { get => ball; set => ball = value; }
     public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
 
@@ -59,9 +57,7 @@ public class DeflectZone : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            //DetectBall(pos.point);
             LaunchBall(pos.point);
-            //Instantiate(a, pos.point, Quaternion.identity);
         }
 
 

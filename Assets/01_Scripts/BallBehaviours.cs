@@ -53,16 +53,16 @@ public class BallBehaviours : MonoBehaviour
         MoveToThePlayerTimer.ResetPlay();
     }
 
-    private void Update()
+    /*private void Update()
     {
         //If the first Shoot haven't be done yet, do not change the velocity of the ball
         if (!firstShoot)
             return;
 
-        if (Rb.velocity.magnitude >= Rb.velocity.normalized.magnitude * 25)
+        /*if (Rb.velocity.magnitude >= Rb.velocity.normalized.magnitude * 25)
             Rb.velocity = Rb.velocity.normalized * 25;
 
-    }
+    }*/
 
     /// <summary>
     /// Add a force every "timeBeforeMovingTowardPlayer" toward The player.
@@ -96,17 +96,21 @@ public class BallBehaviours : MonoBehaviour
 
                 isLaunchByTheplayer = false;
             }
-                
 
-            CameraManager.instance.ShakeCam();
+            CameraManager.instance.IncreaseShakeCam();
+            CameraManager.instance.ResetShakeParametterTimer.ResetPlay();
+            StartCoroutine(CameraManager.instance.ShakeCam());
+
             collisionObject.GetDamage(_BallDamage);
+
+            Rb.AddForce(-collision.contacts[0].point * 50f);
         }
 
         _Audio.clip = impactWall_Sound;
         _Audio.Play();
 
         ///Clamp the velocity at 25.
-        Rb.velocity = Rb.velocity.normalized * 25;
+        Rb.velocity *= _speedModifier;//Rb.velocity.normalized * 25;
     }
 
     public void OnDestroy()

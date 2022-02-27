@@ -17,6 +17,20 @@ public class CameraManager : MonoBehaviour
     public float strength = 90;
     public int vibrato = 10;
     public float randomness = 90;
+    private float currentStrength;
+    private int currentVibrato;
+    [Space]
+    public float _MaxStrength;
+    public int _MaxVibrato;
+    [Space]
+    public float _IncreaseStrength;
+    public int _IncreaseVibrato;
+
+    [Space]
+    [Header("Shake Timer")]
+    public float resetShakeTime;
+    Timer resetShakeParametterTimer;
+    
 
     [Space]
     [Header("Vignette")]
@@ -37,6 +51,9 @@ public class CameraManager : MonoBehaviour
     public float ZoomTarget = 0.66f;
     public float baseZoom = 25.17f;
     public Vector3 m_IntialPosition;
+    public Quaternion m_InitialRotation;
+
+    public Timer ResetShakeParametterTimer { get => resetShakeParametterTimer; set => resetShakeParametterTimer = value; }
 
     void Awake()
     {
@@ -49,23 +66,24 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         m_IntialPosition = transform.position;
+        m_InitialRotation = transform.rotation;
 
         volume.profile.TryGet<Vignette>(out m_Vignette);
         volume.profile.TryGet<ChromaticAberration>(out m_Chromatic);
 
+        currentStrength = strength;
+        currentVibrato = vibrato;
+
+        ResetShakeParametterTimer = new Timer(resetShakeTime, ResetShakeCam);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResetRotationAndPos()
     {
-        //EndSlowMoEffect();
+        transform.position = m_IntialPosition;
+        transform.rotation = m_InitialRotation;
     }
 
-    public void ShakeCam()
-    {
-        transform.DOShakeRotation(duration, strength, vibrato, randomness);
-    }
-
+    #region Zoom
     public void Zoom(float zoomValue, float zoomSpeed)
     {
         Camera.main.DOOrthoSize(zoomValue, zoomSpeed);
@@ -93,7 +111,9 @@ public class CameraManager : MonoBehaviour
         transform.DOMove(m_IntialPosition, 0.2f);
         Camera.main.DOOrthoSize(baseZoom, 0.2f);
     }
+    #endregion
 
+    #region SlowMotion
     public void BeginSlowMotion()
     {
         Camera.main.DOOrthoSize(ZoomTarget, 0.5f);
@@ -146,4 +166,34 @@ public class CameraManager : MonoBehaviour
         m_Vignette.intensity.value = baseVignettage;
         m_Chromatic.intensity.value = baseChromatics;
     }
+    #endregion
+
+    #region Shake Cam
+
+    public IEnumerator ShakeCam()
+    {
+        transform.DOShakeRotation(duration, currentStrength, currentVibrato, randomness);
+        yield return new WaitForSeconds(duration);
+        ResetRotationAndPos();
+    }
+
+    public void IncreaseShakeCam()
+    {
+        currentVibrato += _IncreaseVibrato;
+        currentStrength += _IncreaseStrength;
+
+        currentStrength = Mathf.Clamp(currentStrength, 0, _MaxStrength);
+        currentVibrato = Mathf.Clamp(currentVibrato, 0, _MaxVibrato);
+    }
+
+    public void ResetShakeCam()
+    {
+        currentVibrato = vibrato;
+        currentStrength = strength;
+
+        currentStrength = Mathf.Clamp(currentStrength, 0, _MaxStrength);
+        currentVibrato = Mathf.Clamp(currentVibrato, 0, _MaxVibrato);
+    }
+
+    #endregion
 }
