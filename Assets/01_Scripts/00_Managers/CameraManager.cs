@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+
 
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager instance;
-    public PostProcessProfile profile;
-
+    public Volume volume;
 
 
     [Header ("Shake")]
@@ -23,11 +24,13 @@ public class CameraManager : MonoBehaviour
     public float vignettageSpeed;
     public float baseVignettage;
     public float vignettageTarget = 0.66f;
+    private Vignette m_Vignette;
 
     [Space]
     [Header("Chromatic")]
     public float baseChromatics = 0;
     public float chromaticsTarget = 0.66f;
+    private ChromaticAberration m_Chromatic;
 
     [Space]
     [Header("Zoom")]
@@ -46,6 +49,10 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         m_IntialPosition = transform.position;
+
+        volume.profile.TryGet<Vignette>(out m_Vignette);
+        volume.profile.TryGet<ChromaticAberration>(out m_Chromatic);
+
     }
 
     // Update is called once per frame
@@ -102,8 +109,8 @@ public class CameraManager : MonoBehaviour
     IEnumerator StartSlowMoEffect()
     {
         float time = 0;
-        float vignettage = profile.GetSetting<Vignette>().intensity.value;
-        float chromatics = profile.GetSetting<ChromaticAberration>().intensity.value;
+        float vignettage = m_Vignette.intensity.value;
+        float chromatics = m_Chromatic.intensity.value;
 
         while (time < vignettageSpeed)
         {
@@ -112,19 +119,19 @@ public class CameraManager : MonoBehaviour
 
             time += Time.deltaTime;
 
-            profile.GetSetting<Vignette>().intensity.value = vignettageValue;
-            profile.GetSetting<ChromaticAberration>().intensity.value = chromaticsValue;
+            m_Vignette.intensity.value = vignettageValue;
+            m_Chromatic.intensity.value = chromaticsValue;
             yield return null;
         }
-        profile.GetSetting<Vignette>().intensity.value = vignettageTarget;
-        profile.GetSetting<ChromaticAberration>().intensity.value = chromaticsTarget;
+        m_Vignette.intensity.value = vignettageTarget;
+        m_Chromatic.intensity.value = chromaticsTarget;
     }
 
     IEnumerator EndSlowMoEffect()
     {
         float time = 0;
-        float vignettage = profile.GetSetting<Vignette>().intensity.value;
-        float chromatics = profile.GetSetting<ChromaticAberration>().intensity.value;
+        float vignettage = m_Vignette.intensity.value;
+        float chromatics = m_Chromatic.intensity.value;
 
         while (time < vignettageSpeed)
         {
@@ -132,11 +139,11 @@ public class CameraManager : MonoBehaviour
             float chromaticsValue = Mathf.Lerp(chromatics, baseChromatics, time);
 
             time += Time.deltaTime;
-            profile.GetSetting<Vignette>().intensity.value = value;
-            profile.GetSetting<ChromaticAberration>().intensity.value = chromaticsValue;
+            m_Vignette.intensity.value = value;
+            m_Chromatic.intensity.value = chromaticsValue;
             yield return null;
         }
-        profile.GetSetting<Vignette>().intensity.value = baseVignettage;
-        profile.GetSetting<ChromaticAberration>().intensity.value = baseChromatics;
+        m_Vignette.intensity.value = baseVignettage;
+        m_Chromatic.intensity.value = baseChromatics;
     }
 }

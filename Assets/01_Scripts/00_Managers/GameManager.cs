@@ -7,23 +7,27 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         RUNNING,
-        MENU
+        MENU,
+        PAUSE
     }
 
 
     public static GameManager instance;
 
-
     public Transform spawnerTransform;
     public GameState state = GameState.MENU;
+
+    [SerializeField] private Transform _BallDirectionZone;
 
     private int amountOfElementToDestroy;
 
     private List<GameObject> allBall = new List<GameObject>();
 
+    [SerializeField] private LevelParametter minuteur;
     private float levelTimer;
 
     private bool isPaused = false;
+
 
     void Awake()
     {
@@ -34,8 +38,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        amountOfElementToDestroy = FindObjectsOfType<Basic_ObstacleBehaviours>().Length - FindObjectsOfType<Immortal_ObstacleBehaviours>().Length;
+        amountOfElementToDestroy = FindObjectsOfType<Target_ObstacleBehaviours>().Length;
+
         CanvasManager.instance.SetUpGamePanel(amountOfElementToDestroy);
+
+        levelTimer = minuteur.GetParametterInSecond();
 
         Vibration.Init();
     }
@@ -43,7 +50,7 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         if (state == GameState.RUNNING)
-            levelTimer += Time.deltaTime;
+            levelTimer -= Time.deltaTime;
 
         CanvasManager.instance.gameTimer.text = GetLevelTimer();
     }
@@ -97,6 +104,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region Timer
+
     /// <summary>
     /// Convert the float level Timer into a understanding timer with minutes and seconds
     /// </summary>
@@ -127,7 +135,18 @@ public class GameManager : MonoBehaviour
         if (isPaused)
         {
             Time.timeScale = 0.0f;
-        }else
+            state = GameState.PAUSE;
+        }
+        else
+        {
             Time.timeScale = 1.0f;
+            state = GameState.RUNNING;
+        }
+            
     }
+
+    #region GETTER && SETTER
+    public Transform BallDirectionZone { get => _BallDirectionZone; set => _BallDirectionZone = value; }
+
+    #endregion
 }

@@ -64,7 +64,6 @@ public class TimeController : MonoBehaviour
 
     public void StartSlowMotion()
     {
-        CameraManager.instance.BeginSlowMotion();
         SetTime(slowMotionFlowTime);
 
         slowMotionTimer = new TimeNonAffectedTimer(slowMotionBaseDuration, EndSlowMotion);

@@ -6,6 +6,11 @@ using UnityEngine;
 public class LevelParametter
 {
     public int second, minute;
+
+    public float GetParametterInSecond()
+    {
+        return minute * 60 + second;
+    }
 }
 
 
@@ -21,7 +26,7 @@ public class LevelParametter_SO : ScriptableObject
 
         foreach (var item in parametter)
         {
-            parametterValue = item.second + (item.minute * 60);
+            parametterValue = Mathf.RoundToInt(item.GetParametterInSecond());
             if (time < parametterValue)
                 amountOfStar++;
             else

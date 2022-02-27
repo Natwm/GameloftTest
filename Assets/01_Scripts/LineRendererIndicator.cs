@@ -31,10 +31,10 @@ public class LineRendererIndicator : MonoBehaviour
     private void Update()
     {
 
-        if (PlayerController.instance.IsMoving && PlayerController.instance.Ball !=null)
+        if (DeflectZone.instance.Ball !=null)
         {
-            Vector3 ballPosition = PlayerController.instance.Ball.transform.position;
-            Vector3 dir = VectorsMethods.GetDirectionFromAtoB((Vector2)ballPosition, _CurrentPosition);
+            Vector3 ballPosition = DeflectZone.instance.Ball.transform.position;
+            Vector3 dir = VectorsMethods.GetDirectionFromAtoB((Vector2)ballPosition, (Vector2)DeflectZone.instance.CurrentPosition);
             
             _Ray = new Ray(ballPosition, dir);
 
@@ -68,10 +68,10 @@ public class LineRendererIndicator : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (PlayerController.instance.IsMoving)
+        /*if (PlayerController.instance.IsMoving)
         {
             _CurrentPosition = Camera.main.ScreenToWorldPoint(PlayerController.instance.MousePos);
-        }
+        }*/
     }
 
     public void ResetLine()
