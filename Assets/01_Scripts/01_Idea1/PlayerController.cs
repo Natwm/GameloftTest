@@ -161,16 +161,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     #endregion
 
-    #region Sound
-
-    public AudioClip GetRandomHitSound() 
-    {
-        int index = Random.Range(0, damages_Sound.Count);
-        return damages_Sound[index];
-    }
-
-    #endregion
-
     #region Interfaces
 
     public void GetDamage(int _amountOfDamage)
@@ -179,7 +169,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         StartCoroutine(DamageScale());
         if (canBeHit)
         {
-            _Audio.clip = GetRandomHitSound();
             _Audio.Play();
 
             GameManager.instance.IncreaseTimer(_IncreaseTimerValue);

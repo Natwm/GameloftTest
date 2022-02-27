@@ -27,7 +27,7 @@ public class LevelParametter_SO : ScriptableObject
         foreach (var item in parametter)
         {
             parametterValue = Mathf.RoundToInt(item.GetParametterInSecond());
-            if (time < parametterValue)
+            if (time > parametterValue)
                 amountOfStar++;
             else
                 return amountOfStar;

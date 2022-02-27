@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "b6d1f275b1284a549f594e8dd7760510",
     "m_Properties": [
@@ -11,6 +11,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "d3b4ca6f333d49f8af69ed2c1b93b37a"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "b887536dd3ac4d1fad8bff2c037a9bf0"
@@ -148,10 +154,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "b887536dd3ac4d1fad8bff2c037a9bf0"
@@ -228,9 +235,13 @@
         "m_GuidSerialized": "15a4d491-2308-415c-a836-2f4063bd8d59"
     },
     "m_Name": "Index",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_0ce9574e837f408991312a6c71473833",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -251,9 +262,13 @@
         "m_GuidSerialized": "fa07be18-8733-448e-a7d4-48e4209b45be"
     },
     "m_Name": "WorldPos",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector3_1e07dec0084a48e38c95166c3cdc688d",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -622,6 +637,21 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "d3b4ca6f333d49f8af69ed2c1b93b37a",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "1e07dec0084a48e38c95166c3cdc688d"
+        },
+        {
+            "m_Id": "0ce9574e837f408991312a6c71473833"
+        }
+    ]
 }
 
 {

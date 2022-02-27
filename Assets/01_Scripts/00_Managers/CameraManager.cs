@@ -11,6 +11,7 @@ public class CameraManager : MonoBehaviour
     public static CameraManager instance;
     public Volume volume;
 
+    private AudioSource _Audio;
 
     [Header ("Shake")]
     public float duration;
@@ -53,6 +54,13 @@ public class CameraManager : MonoBehaviour
     public Vector3 m_IntialPosition;
     public Quaternion m_InitialRotation;
 
+    [Space]
+    [Header("Sound")]
+    public AudioClip amibance;
+    public AudioClip slowMoAmibance;
+    public AudioClip startSlowMo;
+    public AudioClip endSlowMo;
+
     public Timer ResetShakeParametterTimer { get => resetShakeParametterTimer; set => resetShakeParametterTimer = value; }
 
     void Awake()
@@ -75,6 +83,8 @@ public class CameraManager : MonoBehaviour
         currentVibrato = vibrato;
 
         ResetShakeParametterTimer = new Timer(resetShakeTime, ResetShakeCam);
+
+        _Audio = GetComponent<AudioSource>();
     }
 
     private void ResetRotationAndPos()
@@ -116,12 +126,20 @@ public class CameraManager : MonoBehaviour
     #region SlowMotion
     public void BeginSlowMotion()
     {
+        _Audio.clip = slowMoAmibance;
+        _Audio.Play();
+        
+        SoundManager.instance.PlaySound(startSlowMo);
         Camera.main.DOOrthoSize(ZoomTarget, 0.5f);
         StartCoroutine(StartSlowMoEffect());
     }
 
     public void EndSlowMotion()
     {
+        _Audio.clip = amibance;
+        _Audio.Play();
+
+        SoundManager.instance.PlaySound(endSlowMo);
         Camera.main.DOOrthoSize(baseZoom, 0.5f);
         StartCoroutine(EndSlowMoEffect());
     }

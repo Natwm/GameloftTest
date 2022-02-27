@@ -30,8 +30,11 @@ public class BallBehaviours : MonoBehaviour
 
     [Space]
     [Header("Audio")]
-    [SerializeField] private AudioClip impactObstacle_Sound;
-    [SerializeField] private AudioClip impactWall_Sound;
+    [SerializeField] private List<AudioClip> impactObstacle_Wood_Sound;
+    [SerializeField] private List<AudioClip> impactObstacle_Steel_Sound;
+    [SerializeField] private List<AudioClip> impactObstacle_Immortal_Sound;
+    [SerializeField] private List<AudioClip> impactObstacle_Target_Sound;
+    [SerializeField] private List<AudioClip> impactWall_Sound;
     private AudioSource _Audio;
 
     private void Awake()
@@ -80,6 +83,10 @@ public class BallBehaviours : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         IDamageable collisionObject;
+        Basic_ObstacleBehaviours basicObj;
+        Target_ObstacleBehaviours targetObj;
+        Coffre_ObstacleBehaviours coffreObj;
+        Immortal_ObstacleBehaviours immortalObj;
 
         Instantiate(dustSmokeParticule,collision.contacts[0].point,Quaternion.identity);
 
@@ -87,8 +94,26 @@ public class BallBehaviours : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<IDamageable>(out collisionObject))
         {
-            _Audio.clip = impactObstacle_Sound;
-            _Audio.Play();
+            if(collision.gameObject.TryGetComponent<Target_ObstacleBehaviours>(out targetObj))
+            {
+                _Audio.clip = SoundManager.GetRandomSound(impactObstacle_Target_Sound);
+                _Audio.Play();
+            }else if(collision.gameObject.TryGetComponent<Coffre_ObstacleBehaviours>(out coffreObj))
+            {
+                _Audio.clip = SoundManager.GetRandomSound(impactObstacle_Steel_Sound);
+                _Audio.Play();
+            }
+            else if(collision.gameObject.TryGetComponent<Immortal_ObstacleBehaviours>(out immortalObj))
+            {
+                _Audio.clip = SoundManager.GetRandomSound(impactObstacle_Immortal_Sound);
+                _Audio.Play();
+            }
+            else if(collision.gameObject.TryGetComponent<Basic_ObstacleBehaviours>(out basicObj))
+            {
+                _Audio.clip = SoundManager.GetRandomSound(impactObstacle_Wood_Sound);
+                _Audio.Play();
+            }
+            
 
             if (isLaunchByTheplayer)
             {
@@ -105,9 +130,11 @@ public class BallBehaviours : MonoBehaviour
 
             Rb.AddForce(-collision.contacts[0].point * 50f);
         }
-
-        _Audio.clip = impactWall_Sound;
-        _Audio.Play();
+        else
+        {
+            _Audio.clip = SoundManager.GetRandomSound(impactWall_Sound);
+            _Audio.Play();
+        }
 
         ///Clamp the velocity at 25.
         Rb.velocity *= _speedModifier;//Rb.velocity.normalized * 25;

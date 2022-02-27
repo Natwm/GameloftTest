@@ -22,6 +22,10 @@ public class DeflectZone : MonoBehaviour
 
     GameObject ball;
 
+    [Header("audio")]
+    [SerializeField] private List<AudioClip> launchSounds;
+    private AudioSource _Audio;
+
     public GameObject Ball { get => ball; set => ball = value; }
     public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
 
@@ -32,41 +36,43 @@ public class DeflectZone : MonoBehaviour
         instance = this;
 
     }
+    private void Start()
+    {
+        _Audio = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.touchCount == 0)
+        if (Input.touchCount == 0)
             return;
 
         Touch input = Input.GetTouch(0);
 
         mousePos = input.position;
+        mousePos.z = 10;
+        
+        /*mousePos = Input.mousePosition;
         mousePos.z = 10;*/
 
-        mousePos = Input.mousePosition;
-        mousePos.z = 10;
-
         Vector3 inputPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ball = DetectBall(pos.point);
-            _FirstPosition = pos.point;
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            LaunchBall(pos.point);
-        }
-
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 
         Physics.Raycast(ray, out pos, Mathf.Infinity);
 
-        Debug.DrawRay(ray.origin, ray.direction * 100);
+
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) )
+        {
+            Ball = DetectBall(pos.point);
+            _FirstPosition = pos.point;
+        }
+
+        if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        {
+            LaunchBall(pos.point);
+        }
 
     }
 
@@ -135,6 +141,9 @@ public class DeflectZone : MonoBehaviour
             Ball = null;
 
             LineRendererIndicator.instance.ResetLine();
+
+            _Audio.clip = SoundManager.GetRandomSound(launchSounds);
+            _Audio.Play();
         }
         //}
     }
