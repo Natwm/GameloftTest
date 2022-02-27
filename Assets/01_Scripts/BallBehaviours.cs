@@ -49,8 +49,8 @@ public class BallBehaviours : MonoBehaviour
 
         Rb.AddForce(force.normalized * _BallSpeed);
 
-        moveToThePlayerTimer = new Timer(timeBeforeMovingTowardPlayer, MoveTowardThePlayer);
-        moveToThePlayerTimer.ResetPlay();
+        MoveToThePlayerTimer = new Timer(timeBeforeMovingTowardPlayer, MoveTowardThePlayer);
+        MoveToThePlayerTimer.ResetPlay();
     }
 
     private void Update()
@@ -69,12 +69,12 @@ public class BallBehaviours : MonoBehaviour
     /// </summary>
     public void MoveTowardThePlayer()
     {
-        Vector3 dir = VectorsMethods.GetDirectionFromAtoB(transform.position, PlayerController.instance.transform.position).normalized;
+        Vector3 dir = VectorsMethods.GetDirectionFromAtoB(transform.position, GameManager.instance.BallDirectionZone.transform.position).normalized;
         Vector3 leftORight = Random.Range(0, 1) == 0 ? Vector3.left : Vector3.right;
 
         Rb.AddForce(-dir * forceTowardPlayer);
         Rb.AddForce(leftORight * forceTowardPlayer/1.25f);
-        moveToThePlayerTimer.ResetPlay();
+        MoveToThePlayerTimer.ResetPlay();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -111,13 +111,14 @@ public class BallBehaviours : MonoBehaviour
 
     public void OnDestroy()
     {
-        moveToThePlayerTimer.Pause();
+        MoveToThePlayerTimer.Pause();
     }
 
     #region GETTER && SETTER
 
     public Rigidbody Rb { get => _Rb; set => _Rb = value; }
     public bool IsLaunchByTheplayer { get => isLaunchByTheplayer; set => isLaunchByTheplayer = value; }
+    public Timer MoveToThePlayerTimer { get => moveToThePlayerTimer; set => moveToThePlayerTimer = value; }
 
     #endregion
 }
