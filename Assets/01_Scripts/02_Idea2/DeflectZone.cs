@@ -22,6 +22,10 @@ public class DeflectZone : MonoBehaviour
 
     GameObject ball;
 
+    [Header("audio")]
+    [SerializeField] private List<AudioClip> launchSounds;
+    private AudioSource _Audio;
+
     public GameObject Ball { get => ball; set => ball = value; }
     public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
 
@@ -31,6 +35,10 @@ public class DeflectZone : MonoBehaviour
             Debug.LogWarning("Multiple instance of same Singleton : DeflectZone");
         instance = this;
 
+    }
+    private void Start()
+    {
+        _Audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -135,6 +143,9 @@ public class DeflectZone : MonoBehaviour
             Ball = null;
 
             LineRendererIndicator.instance.ResetLine();
+
+            _Audio.clip = SoundManager.GetRandomSound(launchSounds);
+            _Audio.Play();
         }
         //}
     }

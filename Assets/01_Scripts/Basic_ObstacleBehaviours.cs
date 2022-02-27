@@ -47,7 +47,6 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
     [Space]
     [Header("Audio")]
-    [SerializeField] private AudioClip collision_Sound;
     [SerializeField] private AudioClip death_Sound;
     private AudioSource _Audio;
 
@@ -68,7 +67,8 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
         deathSequence.AppendCallback(() => DestructionParticule())
                         .Append(transform.DOScale(baseScale + .5f, scaleUptime))
-                        .Append(transform.DOScale(0, scaleDowntime));
+                        .Append(transform.DOScale(0, scaleDowntime))
+                        .AppendCallback(() => visual.SetActive(false));
 
         deathSequence.Pause();
 
@@ -92,19 +92,10 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
         //indicator.color = lifeIndicator[_Health];
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(LerpColor(hitColor, colorAnimationSpeed));
-        }else if (Input.GetKeyDown(KeyCode.C))
-        {
-            StartCoroutine(HitFlash());
-        }
-    }
 
     public void DestructionParticule()
     {
+        print("ok");
         smokeParticule.Play();
     }
 
@@ -157,6 +148,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
         elt.transform.localPosition = pos;
     }
 
+
     #region Interfaces
 
     public virtual void GetDamage(int _amountOfDamage)
@@ -181,6 +173,9 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
     public virtual void Dead()
     {
+        _Audio.clip = death_Sound;
+        _Audio.Play();
+        
         GetComponent<Collider>().isTrigger = true;
 
         GameManager.instance.IncreaseTimer(_IncreaseTimerValue);
@@ -188,7 +183,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
         transform.DOKill();
         deathSequence.Play();
 
-        Destroy(gameObject, 0.35f);
+        Destroy(gameObject, 2f);
     }
     #endregion
 }
