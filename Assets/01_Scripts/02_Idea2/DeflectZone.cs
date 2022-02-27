@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeflectZone : MonoBehaviour
 {
+    public static DeflectZone instance;
+
     [Header("Attack Param")]
     public float radius;
 
@@ -22,9 +24,14 @@ public class DeflectZone : MonoBehaviour
 
     public GameObject a;
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Ball { get => ball; set => ball = value; }
+    public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
+
+    private void Awake()
     {
+        if (instance != null)
+            Debug.LogWarning("Multiple instance of same Singleton : DeflectZone");
+        instance = this;
 
     }
 
@@ -45,32 +52,37 @@ public class DeflectZone : MonoBehaviour
         Vector3 inputPos = Camera.main.ScreenToWorldPoint(mousePos);
 
         if (Input.GetMouseButtonDown(0))
-            _FirstPosition = inputPos;
+        {
+            Ball = DetectBall(pos.point);
+            _FirstPosition = pos.point;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            //DetectBall(pos.point);
+            LaunchBall(pos.point);
+            //Instantiate(a, pos.point, Quaternion.identity);
+        }
+
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
 
         Physics.Raycast(ray, out pos, Mathf.Infinity);
 
-        print(pos.point);
-
         Debug.DrawRay(ray.origin, ray.direction * 100);
 
-        Instantiate(a, pos.point, Quaternion.identity);
-
-        DetectBall(pos.point);
-        LaunchBall(pos.point);
     }
 
     private void LateUpdate()
     {
-        _CurrentPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        CurrentPosition = Camera.main.ScreenToWorldPoint(mousePos);
     }
 
     private GameObject DetectBall(Vector3 castPos)
     {
         test = true;
-        print("Nathan = " + castPos);
+        //print("Nathan = " + castPos);
         hit = Physics.SphereCastAll(castPos, radius, Vector3.forward, bulletLayer);
 
         if (hit.Length > 1)
@@ -78,17 +90,25 @@ public class DeflectZone : MonoBehaviour
             GameObject targetBall = GetBullets();
 
             if (targetBall == null)
+            {
+                LineRendererIndicator.instance.ResetLine();
+
+                TimeController.instance.EndSlowMotion();
+
                 return null;
+            }
 
             if (targetBall.GetComponent<BallBehaviours>() != null)
             {
-                if (!TimeController.instance.SlowMotionTimer.IsStarted())
-                {
-                    TimeController.instance.StartSlowMotion();
-                }
+                CameraManager.instance.BeginSlowMotion();
+
+
+                TimeController.instance.StartSlowMotion();
+
 
                 //PlayerController.instance.Ball = targetBall;
                 targetBall.GetComponent<Rigidbody>().velocity = targetBall.GetComponent<Rigidbody>().velocity.normalized * 2f;
+                targetBall.GetComponent<BallBehaviours>().MoveToThePlayerTimer.Pause();
                 return targetBall;
             }
         }
@@ -98,28 +118,29 @@ public class DeflectZone : MonoBehaviour
 
     private void LaunchBall(Vector3 castPos)
     {
-        if (DetectBall(castPos) == null)
+        /*if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {*/
+
+        if (Ball != null)
         {
-            LineRendererIndicator.instance.ResetLine();
+
+            Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)_FirstPosition, (Vector2)CurrentPosition).normalized;
+
+            Rigidbody ball_RB = Ball.GetComponent<Rigidbody>();
+            BallBehaviours ball_BH = Ball.GetComponent<BallBehaviours>();
+
             TimeController.instance.EndSlowMotion();
-            ball = null;
-            return;
+
+            ball_RB.velocity = Vector3.zero;
+            ball_RB.AddForce(launchDirection * 5000f);
+
+            ball_BH.MoveToThePlayerTimer.Play();
+
+            Ball = null;
+
+            LineRendererIndicator.instance.ResetLine();
         }
-
-        if (Input.GetMouseButtonUp(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            if (ball != null)
-            {
-                Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)_FirstPosition, (Vector2)_CurrentPosition).normalized;
-
-                TimeController.instance.EndSlowMotion();
-                ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                ball.GetComponent<Rigidbody>().AddForce(launchDirection * 5000f);
-                ball = null;
-
-                LineRendererIndicator.instance.ResetLine();
-            }
-        }
+        //}
     }
 
     private GameObject GetBullets()
