@@ -22,7 +22,7 @@ public static class VectorsMethods
 
     public static Vector2 GetDirectionFromAtoB(Vector2 vectorA, Vector2 vectorB)
     {
-        return new Vector3(vectorA.x - vectorB.x, vectorA.y - vectorB.y);
+        return new Vector2(vectorA.x - vectorB.x, vectorA.y - vectorB.y);
     }
 
     public static bool CompareVectorApproximatelyByDistance2D(Vector2 firstVector, Vector2 secondVector, float allowedDifference)

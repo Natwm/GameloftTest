@@ -50,7 +50,7 @@ public class BallBehaviours : MonoBehaviour
         force.x = 0;
         force.y = -1f;
 
-        Rb.AddForce(force.normalized * _BallSpeed);
+        //Rb.AddForce(force.normalized * _BallSpeed);
 
         MoveToThePlayerTimer = new Timer(timeBeforeMovingTowardPlayer, MoveTowardThePlayer);
         MoveToThePlayerTimer.ResetPlay();

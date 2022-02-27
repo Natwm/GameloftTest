@@ -28,6 +28,7 @@ public class DeflectZone : MonoBehaviour
 
     public GameObject Ball { get => ball; set => ball = value; }
     public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
+    public Vector3 FirstPosition { get => _FirstPosition; set => _FirstPosition = value; }
 
     private void Awake()
     {
@@ -44,29 +45,28 @@ public class DeflectZone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.touchCount == 0)
+        /*if (Input.touchCount == 0)
             return;
 
         Touch input = Input.GetTouch(0);
 
         mousePos = input.position;
-        mousePos.z = 10;
-        
-        /*mousePos = Input.mousePosition;
         mousePos.z = 10;*/
 
-        Vector3 inputPos = Camera.main.ScreenToWorldPoint(mousePos);
+        mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        CurrentPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
 
         Physics.Raycast(ray, out pos, Mathf.Infinity);
 
 
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) )
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             Ball = DetectBall(pos.point);
-            _FirstPosition = pos.point;
+            FirstPosition = Camera.main.ScreenToWorldPoint(mousePos);
         }
 
         if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
@@ -74,11 +74,6 @@ public class DeflectZone : MonoBehaviour
             LaunchBall(pos.point);
         }
 
-    }
-
-    private void LateUpdate()
-    {
-        CurrentPosition = Camera.main.ScreenToWorldPoint(mousePos);
     }
 
     private GameObject DetectBall(Vector3 castPos)
@@ -109,7 +104,9 @@ public class DeflectZone : MonoBehaviour
 
 
                 //PlayerController.instance.Ball = targetBall;
+
                 targetBall.GetComponent<Rigidbody>().velocity = targetBall.GetComponent<Rigidbody>().velocity.normalized * 2f;
+
                 targetBall.GetComponent<BallBehaviours>().MoveToThePlayerTimer.Pause();
                 return targetBall;
             }
@@ -125,8 +122,9 @@ public class DeflectZone : MonoBehaviour
 
         if (Ball != null)
         {
+            Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)FirstPosition,(Vector2)CurrentPosition);
+            print("Direction = " + launchDirection);
 
-            Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)_FirstPosition, (Vector2)CurrentPosition).normalized;
 
             Rigidbody ball_RB = Ball.GetComponent<Rigidbody>();
             BallBehaviours ball_BH = Ball.GetComponent<BallBehaviours>();
@@ -134,7 +132,7 @@ public class DeflectZone : MonoBehaviour
             TimeController.instance.EndSlowMotion();
 
             ball_RB.velocity = Vector3.zero;
-            ball_RB.AddForce(launchDirection * 5000f);
+            ball_RB.AddForce(launchDirection * 500f);
 
             ball_BH.MoveToThePlayerTimer.Play();
 

@@ -168,6 +168,7 @@ namespace CommandTerminal
             foreach (var command in Shell.Commands) {
                 Autocomplete.Register(command.Key);
             }
+            SetState(TerminalState.OpenSmall);
         }
 
         void OnGUI() {

@@ -34,7 +34,9 @@ public class LineRendererIndicator : MonoBehaviour
         if (DeflectZone.instance.Ball !=null)
         {
             Vector3 ballPosition = DeflectZone.instance.Ball.transform.position;
-            Vector3 dir = VectorsMethods.GetDirectionFromAtoB((Vector2)ballPosition, (Vector2)DeflectZone.instance.CurrentPosition);
+            Vector3 dir = VectorsMethods.GetDirectionFromAtoB((Vector2)DeflectZone.instance.FirstPosition, (Vector2)DeflectZone.instance.CurrentPosition).normalized;
+
+            print(dir);
             
             _Ray = new Ray(ballPosition, dir);
 
