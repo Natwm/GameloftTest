@@ -7,6 +7,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 {
     #region Param
     [SerializeField] private int _Health;
+    [SerializeField] private GameObject visual;
     protected Sequence damageSequence;
     Sequence deathSequence;
 
@@ -64,8 +65,16 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
         deathSequence.Pause();
 
-        m_Mat = GetComponent<Renderer>().material;
-        baseColor = m_Mat.color;
+        /*try
+        {*/
+            m_Mat = visual.GetComponent<Renderer>().material;
+            baseColor = m_Mat.GetColor("_DiffuseColor");
+        /*}
+        catch
+        {
+
+        }*/
+        
 
     }
 
@@ -76,6 +85,17 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
         //indicator.color = lifeIndicator[_Health];
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(LerpColor(hitColor, colorAnimationSpeed));
+        }else if (Input.GetKeyDown(KeyCode.C))
+        {
+            StartCoroutine(HitFlash());
+        }
+    }
+
     public void DestructionParticule()
     {
         smokeParticule.Play();
@@ -83,9 +103,22 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
     public IEnumerator HitFlash()
     {
-        m_Mat.DOColor(hitColor, colorAnimationSpeed);
+        StartCoroutine(LerpColor(hitColor, colorAnimationSpeed));
         yield return new WaitForSeconds(colorAnimationSpeed);
-        m_Mat.DOColor(baseColor, colorAnimationSpeed);
+        StartCoroutine(LerpColor(baseColor, colorAnimationSpeed));
+    }
+
+    IEnumerator LerpColor(Color endValue, float duration)
+    {
+        float time = 0;
+        Color startValue = m_Mat.GetColor("_DiffuseColor");
+        while (time < duration)
+        {
+            m_Mat.SetColor("_DiffuseColor", Color.Lerp(startValue, endValue, time / duration));
+            time += Time.deltaTime;
+            yield return null;
+        }
+        m_Mat.SetColor("_DiffuseColor", endValue);
     }
 
     /// <summary>
