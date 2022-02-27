@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     [Space]
     [Header("Audio")]
-    [SerializeField] private AudioClip damage_Sound;
+    [SerializeField] private List<AudioClip> damages_Sound;
     private AudioSource _Audio;
 
     private void Awake()
@@ -161,6 +161,16 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     #endregion
 
+    #region Sound
+
+    public AudioClip GetRandomHitSound() 
+    {
+        int index = Random.Range(0, damages_Sound.Count);
+        return damages_Sound[index];
+    }
+
+    #endregion
+
     #region Interfaces
 
     public void GetDamage(int _amountOfDamage)
@@ -169,7 +179,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         StartCoroutine(DamageScale());
         if (canBeHit)
         {
-            _Audio.clip = damage_Sound;
+            _Audio.clip = GetRandomHitSound();
             _Audio.Play();
 
             GameManager.instance.IncreaseTimer(_IncreaseTimerValue);
@@ -177,6 +187,7 @@ public class PlayerController : MonoBehaviour, IDamageable
             invincibilityTimer.ResetPlay();
         }
     }
+
 
     public bool IsDead()
     {

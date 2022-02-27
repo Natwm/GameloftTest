@@ -70,8 +70,10 @@ public class BallBehaviours : MonoBehaviour
     public void MoveTowardThePlayer()
     {
         Vector3 dir = VectorsMethods.GetDirectionFromAtoB(transform.position, PlayerController.instance.transform.position).normalized;
-        Rb.AddForce(-dir * forceTowardPlayer);
+        Vector3 leftORight = Random.Range(0, 1) == 0 ? Vector3.left : Vector3.right;
 
+        Rb.AddForce(-dir * forceTowardPlayer);
+        Rb.AddForce(leftORight * forceTowardPlayer/1.25f);
         moveToThePlayerTimer.ResetPlay();
     }
 

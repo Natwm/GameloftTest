@@ -20,6 +20,8 @@ public class DeflectZone : MonoBehaviour
 
     GameObject ball;
 
+    public GameObject a;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +55,8 @@ public class DeflectZone : MonoBehaviour
         print(pos.point);
 
         Debug.DrawRay(ray.origin, ray.direction * 100);
+
+        Instantiate(a, pos.point, Quaternion.identity);
 
         DetectBall(pos.point);
         LaunchBall(pos.point);
