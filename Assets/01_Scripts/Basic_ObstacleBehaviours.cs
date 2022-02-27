@@ -6,8 +6,15 @@ using DG.Tweening;
 public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 {
     #region Param
-    [SerializeField] private int _Health;
+    
     [SerializeField] private GameObject visual;
+
+    [Space]
+    [Header("Param")]
+    [SerializeField] private int _Health;
+    [Tooltip ("The value that will be added to the timer when this object get destroyed")]
+    [SerializeField] private int _IncreaseTimerValue;
+
     protected Sequence damageSequence;
     Sequence deathSequence;
 
@@ -143,8 +150,6 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
             pos += new Vector2(indicator_Space, 0);
             elt = Instantiate(indicator_Center, indicator_Holder);
             elt.transform.localPosition = pos;
-
-            print(pos);
         }
 
         pos += new Vector2(indicator_Space, 0);
@@ -177,9 +182,12 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
     public virtual void Dead()
     {
         GetComponent<Collider>().isTrigger = true;
-        GameManager.instance.ReduceAmountofElement();
+
+        GameManager.instance.IncreaseTimer(_IncreaseTimerValue);
+
         transform.DOKill();
         deathSequence.Play();
+
         Destroy(gameObject, 0.35f);
     }
     #endregion
