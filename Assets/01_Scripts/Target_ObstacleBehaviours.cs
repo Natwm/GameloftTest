@@ -11,8 +11,8 @@ public class Target_ObstacleBehaviours : Basic_ObstacleBehaviours
         SetUpLifeIndicator();
         _Audio = GetComponent<AudioSource>();
 
-        transform.DOScale(1.05f, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        TargetIndicator.GetComponent<SpriteRenderer>().DOColor(Color.red, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        transform.DOScale(1.05f, 1f).SetEase(Ease.Linear).SetLoops(4, LoopType.Yoyo);
+        TargetIndicator.GetComponent<SpriteRenderer>().DOColor(Color.red, 1f).SetEase(Ease.Linear).SetLoops(4, LoopType.Yoyo);
     }
 
     public override void Dead()

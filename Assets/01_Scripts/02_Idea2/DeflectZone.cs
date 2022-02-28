@@ -9,8 +9,9 @@ public class DeflectZone : MonoBehaviour
     [Header("Attack Param")]
     public float radius;
     public float m_LaunchPower = 500f;
+    public int m_AmountOfShoot;
 
-    public bool test;
+    public bool m_IsLimitedInShooting;
     RaycastHit[] hit;
     RaycastHit pos;
 
@@ -41,6 +42,7 @@ public class DeflectZone : MonoBehaviour
     private void Start()
     {
         _Audio = GetComponent<AudioSource>();
+        m_AmountOfShoot = ScoreManager.instance.parametter.InitialAmountOfShoot;
     }
 
     // Update is called once per frame
@@ -71,7 +73,7 @@ public class DeflectZone : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
-        {
+        {            
             LaunchBall(pos.point);
         }
 
@@ -79,7 +81,6 @@ public class DeflectZone : MonoBehaviour
 
     private GameObject DetectBall(Vector3 castPos)
     {
-        test = true;
         //print("Nathan = " + castPos);
         hit = Physics.SphereCastAll(castPos, radius, Vector3.forward, bulletLayer);
 
@@ -123,10 +124,23 @@ public class DeflectZone : MonoBehaviour
 
         if (Ball != null)
         {
+            if (m_IsLimitedInShooting)
+            {
+                m_AmountOfShoot--;
+
+                if (m_AmountOfShoot <= 0)
+                {
+                    GameManager.instance.GameOver();
+                    return;
+                }
+            }
+
             Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)FirstPosition,(Vector2)CurrentPosition);
 
             Rigidbody ball_RB = Ball.GetComponent<Rigidbody>();
             BallBehaviours ball_BH = Ball.GetComponent<BallBehaviours>();
+
+            ball_BH.UpdateNBLauch(m_AmountOfShoot);
 
             TimeController.instance.EndSlowMotion();
             TimeController.instance.slowMotionTimer.Pause();

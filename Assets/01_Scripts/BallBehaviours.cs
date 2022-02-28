@@ -39,6 +39,9 @@ public class BallBehaviours : MonoBehaviour
     [SerializeField] private List<AudioClip> impactWall_Sound;
     private AudioSource _Audio;
 
+    [Header("Text")]
+    [SerializeField] private TMPro.TMP_Text launchIndicator;
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody>();
@@ -56,6 +59,8 @@ public class BallBehaviours : MonoBehaviour
 
         MoveToThePlayerTimer = new Timer(timeBeforeMovingTowardPlayer, MoveTowardThePlayer);
         MoveToThePlayerTimer.ResetPlay();
+
+        UpdateNBLauch(ScoreManager.instance.parametter.InitialAmountOfShoot);
     }
 
     private void Update()
@@ -141,6 +146,11 @@ public class BallBehaviours : MonoBehaviour
         Rb.velocity *= _speedModifier;//Rb.velocity.normalized * 25;
 
         SoundManager.instance.PlayAccord();
+    }
+
+    public void UpdateNBLauch(int amountofthrow)
+    {
+        launchIndicator.text = amountofthrow.ToString();
     }
 
     public void OnDestroy()
