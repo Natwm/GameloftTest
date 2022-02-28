@@ -19,8 +19,8 @@ public class LevelParametter_SO : ScriptableObject
 {
     [SerializeField] private LevelParametter initialTimer;
     [SerializeField] private LevelParametter[] parametter = new LevelParametter[3];
-
-    public LevelParametter InitialTimer { get => initialTimer; set => initialTimer = value; }
+    [Space]
+    [SerializeField] private int initialAmountOfShoot;
 
     public int GetScore(float time)
     {
@@ -38,4 +38,11 @@ public class LevelParametter_SO : ScriptableObject
 
         return amountOfStar;
     }
+
+    #region GETTER && SETTER
+
+    public LevelParametter InitialTimer { get => initialTimer; set => initialTimer = value; }
+    public int InitialAmountOfShoot { get => initialAmountOfShoot; set => initialAmountOfShoot = value; }
+
+    #endregion
 }
