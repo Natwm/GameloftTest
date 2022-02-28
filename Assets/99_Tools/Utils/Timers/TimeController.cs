@@ -85,6 +85,7 @@ public class TimeController : MonoBehaviour
 
     public void EndSlowMotion()
     {
+        print("lol");
         CameraManager.instance.EndSlowMotion();
         isActivedOnce = false;
         SetTime(normalFlowTime);

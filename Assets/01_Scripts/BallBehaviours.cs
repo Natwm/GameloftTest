@@ -13,6 +13,8 @@ public class BallBehaviours : MonoBehaviour
 
     [SerializeField] private float _speedModifier = 1f;
 
+    [SerializeField] private float MaxSpeed;
+
     private bool firstShoot;
     private bool isLaunchByTheplayer;
 
@@ -50,22 +52,21 @@ public class BallBehaviours : MonoBehaviour
         force.x = 0;
         force.y = -1f;
 
-        Rb.AddForce(force.normalized * _BallSpeed);
+        //Rb.AddForce(force.normalized * _BallSpeed);
 
         MoveToThePlayerTimer = new Timer(timeBeforeMovingTowardPlayer, MoveTowardThePlayer);
         MoveToThePlayerTimer.ResetPlay();
     }
 
-    /*private void Update()
+    private void Update()
     {
         //If the first Shoot haven't be done yet, do not change the velocity of the ball
         if (!firstShoot)
             return;
 
-        /*if (Rb.velocity.magnitude >= Rb.velocity.normalized.magnitude * 25)
-            Rb.velocity = Rb.velocity.normalized * 25;
+        Rb.velocity = Vector2.ClampMagnitude(Rb.velocity, MaxSpeed);
 
-    }*/
+    }
 
     /// <summary>
     /// Add a force every "timeBeforeMovingTowardPlayer" toward The player.
