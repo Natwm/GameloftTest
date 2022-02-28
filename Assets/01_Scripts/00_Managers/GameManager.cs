@@ -22,8 +22,7 @@ public class GameManager : MonoBehaviour
     private int amountOfElementToDestroy;
 
     private List<GameObject> allBall = new List<GameObject>();
-
-    [SerializeField] private LevelParametter minuteur;
+    
     private float levelTimer;
 
     private bool isPaused = false;
@@ -40,17 +39,26 @@ public class GameManager : MonoBehaviour
     {
         amountOfElementToDestroy = FindObjectsOfType<Target_ObstacleBehaviours>().Length;
 
-        CanvasManager.instance.SetUpGamePanel(amountOfElementToDestroy);
-
-        levelTimer = minuteur.GetParametterInSecond();
-
         Vibration.Init();
     }
 
     public void Update()
     {
         if (state == GameState.RUNNING)
+        {
             levelTimer -= Time.deltaTime;
+            if (levelTimer <= 0)
+                GameOver();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            foreach (var item in FindObjectsOfType<Target_ObstacleBehaviours>())
+            {
+                item.Dead();
+            }
+        }
+            
 
         CanvasManager.instance.gameTimer.text = GetLevelTimer();
     }
@@ -72,7 +80,7 @@ public class GameManager : MonoBehaviour
     public void ReduceAmountofElement()
     {
         amountOfElementToDestroy--;
-        CanvasManager.instance.UpdateLevelIndicator(amountOfElementToDestroy);
+        
         if (amountOfElementToDestroy <= 0)
             Victory();
     }
@@ -82,6 +90,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void Victory()
     {
+        ScoreManager.instance.GetScore(Mathf.RoundToInt(levelTimer));
+        DestroyAllBall();
+        CanvasManager.instance.VictoryPanel();
+
+        state = GameState.MENU;
+    }
+
+    public void GameOver()
+    {
+        print("GameOver");
         ScoreManager.instance.GetScore(Mathf.RoundToInt(levelTimer));
         DestroyAllBall();
         CanvasManager.instance.VictoryPanel();
@@ -124,6 +142,7 @@ public class GameManager : MonoBehaviour
     public void IncreaseTimer(float amountOfTime)
     {
         levelTimer += amountOfTime;
+        StartCoroutine(CanvasManager.instance.TimerFeedback(Mathf.RoundToInt(amountOfTime)));
     }
     #endregion
 
@@ -142,6 +161,11 @@ public class GameManager : MonoBehaviour
             state = GameState.RUNNING;
         }
             
+    }
+
+    public void SetUpInitialLevelTimer(float time)
+    {
+        levelTimer = time;
     }
 
     #region GETTER && SETTER

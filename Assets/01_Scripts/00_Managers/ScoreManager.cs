@@ -16,6 +16,11 @@ public class ScoreManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        GameManager.instance.SetUpInitialLevelTimer(parametter.InitialTimer.GetParametterInSecond());
+    }
+
     public void GetScore(int time)
     {
         playerScore = parametter.GetScore(time);

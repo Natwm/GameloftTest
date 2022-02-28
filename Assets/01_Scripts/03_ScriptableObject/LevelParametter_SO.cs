@@ -17,7 +17,10 @@ public class LevelParametter
 [CreateAssetMenu(fileName = "New LevelParametter", menuName = "New Scriptable Object/New CaseContener")]
 public class LevelParametter_SO : ScriptableObject
 {
+    [SerializeField] private LevelParametter initialTimer;
     [SerializeField] private LevelParametter[] parametter = new LevelParametter[3];
+
+    public LevelParametter InitialTimer { get => initialTimer; set => initialTimer = value; }
 
     public int GetScore(float time)
     {
