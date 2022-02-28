@@ -48,7 +48,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
     [Space]
     [Header("Audio")]
     [SerializeField] private AudioClip death_Sound;
-    private AudioSource _Audio;
+    protected AudioSource _Audio;
 
     #endregion
 
@@ -89,7 +89,6 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
     {
         SetUpLifeIndicator();
         _Audio = GetComponent<AudioSource>();
-        //indicator.color = lifeIndicator[_Health];
     }
 
 
@@ -130,7 +129,7 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
         collisionOBJ.transform.DOScale(Vector3.zero, 0.18f);
     }
 
-    private void SetUpLifeIndicator()
+    protected void SetUpLifeIndicator()
     {
         Vector2 pos = Vector2.zero;
         GameObject elt = Instantiate(indicator_Left, indicator_Holder);
