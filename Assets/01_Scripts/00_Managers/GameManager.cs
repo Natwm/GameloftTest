@@ -84,7 +84,6 @@ public class GameManager : MonoBehaviour
     {
         ScoreManager.instance.GetScore(Mathf.RoundToInt(levelTimer));
         DestroyAllBall();
-        PlayerController.instance.canMove = false;
         CanvasManager.instance.VictoryPanel();
 
         state = GameState.MENU;

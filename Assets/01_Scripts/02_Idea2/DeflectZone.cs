@@ -8,6 +8,7 @@ public class DeflectZone : MonoBehaviour
 
     [Header("Attack Param")]
     public float radius;
+    public float m_LaunchPower = 500f;
 
     public bool test;
     RaycastHit[] hit;
@@ -123,16 +124,15 @@ public class DeflectZone : MonoBehaviour
         if (Ball != null)
         {
             Vector2 launchDirection = VectorsMethods.GetDirectionFromAtoB((Vector2)FirstPosition,(Vector2)CurrentPosition);
-            print("Direction = " + launchDirection);
-
 
             Rigidbody ball_RB = Ball.GetComponent<Rigidbody>();
             BallBehaviours ball_BH = Ball.GetComponent<BallBehaviours>();
 
             TimeController.instance.EndSlowMotion();
+            TimeController.instance.slowMotionTimer.Pause();
 
             ball_RB.velocity = Vector3.zero;
-            ball_RB.AddForce(launchDirection * 500f);
+            ball_RB.AddForce(launchDirection * m_LaunchPower);
 
             ball_BH.MoveToThePlayerTimer.Play();
 
