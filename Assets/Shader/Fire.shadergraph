@@ -277,9 +277,6 @@
             "m_Id": "b1f55f4e720b47adacaa37825ef26695"
         },
         {
-            "m_Id": "7ba468dfd4d14feba032ca8e5ba5637b"
-        },
-        {
             "m_Id": "5ea14898c27c447e8e5e1c3f65f8a74d"
         },
         {
@@ -6296,41 +6293,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
-    "m_ObjectId": "7ba468dfd4d14feba032ca8e5ba5637b",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "CelShad",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 1590.0001220703125,
-            "y": 2759.000244140625,
-            "width": 207.999755859375,
-            "height": 277.999755859375
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "c2bcf156831d45e78a600bc1e6f7fe68"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"d6a45572847a7db4e9165e386d6da5cc\",\n        \"type\": 3\n    }\n}",
-    "m_PropertyGuids": [],
-    "m_PropertyIds": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "7ef477f3eaa34625aedf6235ab8ed252",
     "m_Id": 0,
@@ -8452,31 +8414,6 @@
         "z": 0.0,
         "w": 0.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "c2bcf156831d45e78a600bc1e6f7fe68",
-    "m_Id": 1,
-    "m_DisplayName": "Out_Vector4",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "OutVector4",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
 }
 
 {

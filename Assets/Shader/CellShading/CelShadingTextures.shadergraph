@@ -1526,6 +1526,39 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "150f0f3b118c4c62ae6095cd98103e2d",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "84ca5e9f928649e48ca6efe71faa724e"
+        },
+        {
+            "m_Id": "48f5615dd74e4ccdafdb42eec2cfb3eb"
+        },
+        {
+            "m_Id": "baa1c2c9812b4a7789444165a0792ddf"
+        },
+        {
+            "m_Id": "842f4a71b1814d3c8a8a132d198414e8"
+        },
+        {
+            "m_Id": "d5ad719c51384518bb20b738aeeeb390"
+        },
+        {
+            "m_Id": "16df1deee81b4a64a04187b2d032fc89"
+        },
+        {
+            "m_Id": "8abfb4c3fdf24868a29de39d97a5a32c"
+        },
+        {
+            "m_Id": "3833d69aa0b542cb9cb6339933557d81"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "15d49a7ac6f54f8b982322e903a2e0c0",
     "m_Id": 2,

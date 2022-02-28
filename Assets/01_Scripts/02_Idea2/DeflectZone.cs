@@ -100,7 +100,7 @@ public class DeflectZone : MonoBehaviour
             {
                 CameraManager.instance.BeginSlowMotion();
 
-
+                print(targetBall.GetComponent<BallBehaviours>().FirstShoot);
                 TimeController.instance.StartSlowMotion();
 
 

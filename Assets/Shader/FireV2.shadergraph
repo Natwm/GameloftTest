@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 3,
+    "m_SGVersion": 2,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "a160bb8d2b9440f0b26222943f9bba65",
     "m_Properties": [
@@ -32,12 +32,6 @@
         }
     ],
     "m_Keywords": [],
-    "m_Dropdowns": [],
-    "m_CategoryData": [
-        {
-            "m_Id": "fec93e13bcfe4e32b315704fba53a779"
-        }
-    ],
     "m_Nodes": [
         {
             "m_Id": "dd920393fce14971b2dfa75b0c00ed2b"
@@ -764,11 +758,10 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        },
-        "preventRotation": false
+        }
     },
     "m_Path": "Shader Graphs",
-    "m_GraphPrecision": 1,
+    "m_ConcretePrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -1460,9 +1453,7 @@
     },
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"d6a45572847a7db4e9165e386d6da5cc\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [],
-    "m_PropertyIds": [],
-    "m_Dropdowns": [],
-    "m_DropdownSelectedEntries": []
+    "m_PropertyIds": []
 }
 
 {
@@ -1554,8 +1545,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 0,
-    "m_PositionSource": 0
+    "m_Space": 0
 }
 
 {
@@ -1635,13 +1625,9 @@
         "m_GuidSerialized": "12d60e9e-327a-4022-971d-4ac4352a8880"
     },
     "m_Name": "Ambient Strength",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Ambient Strength",
     "m_DefaultReferenceName": "_Ambient_Strength",
     "m_OverrideReferenceName": "_AmbientStrength",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1709,13 +1695,9 @@
         "m_GuidSerialized": "2df5a07d-9a13-4fb9-9ae5-fad1e4bcf6b3"
     },
     "m_Name": "Fresnel Size",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Fresnel Size",
     "m_DefaultReferenceName": "_Fresnel_Size",
     "m_OverrideReferenceName": "_FresnelSize",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1766,13 +1748,9 @@
         "m_GuidSerialized": "9df70532-fee1-4985-babc-4944601ab345"
     },
     "m_Name": "Strength",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Strength",
     "m_DefaultReferenceName": "_Strength",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -2864,13 +2842,9 @@
         "m_GuidSerialized": "97a08d4f-8eeb-4e09-84b6-489606e9342f"
     },
     "m_Name": "Specular Color",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Specular Color",
     "m_DefaultReferenceName": "_Specular_Color",
     "m_OverrideReferenceName": "_SpecularColor",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -2881,7 +2855,6 @@
         "b": 1.0,
         "a": 1.0
     },
-    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -3477,13 +3450,9 @@
         "m_GuidSerialized": "0161335f-8b63-4929-aa81-ceca69a5990a"
     },
     "m_Name": "Smoothness",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Smoothness",
     "m_DefaultReferenceName": "_Smoothness",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3811,17 +3780,11 @@
     "m_ActiveSubTarget": {
         "m_Id": "dcb6fa010495444f86715bee4097eab2"
     },
-    "m_AllowMaterialOverride": false,
     "m_SurfaceType": 1,
-    "m_ZTestMode": 4,
-    "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 2,
+    "m_TwoSided": false,
     "m_AlphaClip": true,
-    "m_CastShadows": true,
-    "m_ReceiveShadows": true,
-    "m_CustomEditorGUI": "",
-    "m_SupportVFX": false
+    "m_CustomEditorGUI": ""
 }
 
 {
@@ -3874,13 +3837,9 @@
         "m_GuidSerialized": "03cad958-8366-4e51-9d5a-b1d42d789696"
     },
     "m_Name": "Fresnel Color",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Fresnel Color",
     "m_DefaultReferenceName": "_Fresnel_Color",
     "m_OverrideReferenceName": "_FresnelColor",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3891,7 +3850,6 @@
         "b": 1.0,
         "a": 1.0
     },
-    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -4235,13 +4193,9 @@
         "m_GuidSerialized": "6ade876a-9ddd-4d52-8cbf-461b7709f86f"
     },
     "m_Name": "Falloff Amount",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Falloff Amount",
     "m_DefaultReferenceName": "_Falloff_Amount",
     "m_OverrideReferenceName": "_FalloffAmount",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4742,13 +4696,9 @@
         "m_GuidSerialized": "041dd74e-d1c8-444e-b868-a506527971b5"
     },
     "m_Name": "Diffuse Color",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Diffuse Color",
     "m_DefaultReferenceName": "_Diffuse_Color",
     "m_OverrideReferenceName": "_DiffuseColor",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4759,7 +4709,6 @@
         "b": 1.0,
         "a": 1.0
     },
-    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -5322,13 +5271,9 @@
         "m_GuidSerialized": "eb3a601f-0981-4165-995f-f416d00e62ba"
     },
     "m_Name": "Lighting Cutoff",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Lighting Cutoff",
     "m_DefaultReferenceName": "_Lighting_Cutoff",
     "m_OverrideReferenceName": "_LightingCutoff",
     "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
