@@ -61,7 +61,7 @@ public class BallBehaviours : MonoBehaviour
     private void Update()
     {
         //If the first Shoot haven't be done yet, do not change the velocity of the ball
-        if (!firstShoot)
+        if (!FirstShoot)
             return;
 
         Rb.velocity = Vector2.ClampMagnitude(Rb.velocity, MaxSpeed);
@@ -91,7 +91,7 @@ public class BallBehaviours : MonoBehaviour
 
         Instantiate(dustSmokeParticule,collision.contacts[0].point,Quaternion.identity);
 
-        firstShoot = true;
+        FirstShoot = true;
 
         if (collision.gameObject.TryGetComponent<IDamageable>(out collisionObject))
         {
@@ -139,6 +139,8 @@ public class BallBehaviours : MonoBehaviour
 
         ///Clamp the velocity at 25.
         Rb.velocity *= _speedModifier;//Rb.velocity.normalized * 25;
+
+        SoundManager.instance.PlayAccord();
     }
 
     public void OnDestroy()
@@ -151,6 +153,7 @@ public class BallBehaviours : MonoBehaviour
     public Rigidbody Rb { get => _Rb; set => _Rb = value; }
     public bool IsLaunchByTheplayer { get => isLaunchByTheplayer; set => isLaunchByTheplayer = value; }
     public Timer MoveToThePlayerTimer { get => moveToThePlayerTimer; set => moveToThePlayerTimer = value; }
+    public bool FirstShoot { get => firstShoot; set => firstShoot = value; }
 
     #endregion
 }

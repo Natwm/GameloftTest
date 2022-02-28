@@ -153,8 +153,6 @@ public class Basic_ObstacleBehaviours : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int _amountOfDamage)
     {
-        _Audio.Play();
-
         damageSequence.Play();
         StartCoroutine(ImpactCircle());
 

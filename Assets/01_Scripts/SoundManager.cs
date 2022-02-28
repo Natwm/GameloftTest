@@ -5,9 +5,14 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    private AudioSource _Audio;
+    [SerializeField] private AudioSource _Audio;
+    [SerializeField] private AudioSource _AudioAccord;
 
+    [Space]
     public AudioClip uiClick;
+    public List<AudioClip> UiSpawn;
+    public List<AudioClip> accord;
+
     void Awake()
     {
         if (instance != null)
@@ -36,5 +41,16 @@ public class SoundManager : MonoBehaviour
     {
         _Audio.clip = uiClick;
         _Audio.Play();
+    }
+    public void PlayStartSpawnUI()
+    {
+        _Audio.clip = GetRandomSound(UiSpawn);
+        _Audio.Play();
+    }
+
+    public void PlayAccord()
+    {
+        _AudioAccord.clip = GetRandomSound(accord);
+        _AudioAccord.Play();
     }
 }
