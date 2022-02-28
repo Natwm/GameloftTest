@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class VictoryPanelAnimator : MonoBehaviour
 {
+    public bool isGameOver = false;
 
     public List<GameObject> _Stars;
     public List<GameObject> _ActionButton;
@@ -56,7 +57,8 @@ public class VictoryPanelAnimator : MonoBehaviour
         GameObject currentStar = _Stars[index];
 
         currentSequence.Append(currentStar.transform.DOScale(1, 0.3f)).
-                        Append(currentStar.transform.DOPunchScale(Vector3.one * 0.5f, 0.7f, 5, 0.7f).SetEase(Ease.OutCirc));
+                        Append(currentStar.transform.DOPunchScale(Vector3.one * 0.5f, 0.7f, 5, 0.7f).SetEase(Ease.OutCirc))
+                        .AppendCallback(() => SoundManager.instance.PlayStartSpawnUI());
 
         currentSequence.PrependInterval(delay);
     }
@@ -74,7 +76,9 @@ public class VictoryPanelAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        AnimatedStar(ScoreManager.instance.playerScore);
+        if(isGameOver)
+            AnimatedStar(ScoreManager.instance.playerScore);
+
         AnimatedButton();
         timerText.text = GameManager.instance.GetLevelTimer();
     }
