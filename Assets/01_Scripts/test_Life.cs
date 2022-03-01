@@ -16,11 +16,6 @@ public class test_Life : MonoBehaviour
         setUpLife();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void setUpLife()
     {

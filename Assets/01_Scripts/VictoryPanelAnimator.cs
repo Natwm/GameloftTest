@@ -76,7 +76,7 @@ public class VictoryPanelAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        if(isGameOver)
+        if(!isGameOver)
             AnimatedStar(ScoreManager.instance.playerScore);
 
         AnimatedButton();

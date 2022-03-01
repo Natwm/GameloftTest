@@ -51,15 +51,6 @@ public class GameManager : MonoBehaviour
                 GameOver();
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            foreach (var item in FindObjectsOfType<Target_ObstacleBehaviours>())
-            {
-                item.Dead();
-            }
-        }
-            
-
         CanvasManager.instance.gameTimer.text = GetLevelTimer();
     }
 
