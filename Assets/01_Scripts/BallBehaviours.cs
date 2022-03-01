@@ -7,7 +7,6 @@ public class BallBehaviours : MonoBehaviour
     private Rigidbody _Rb;
 
     [Header("Ball Param")]
-    [SerializeField] private float _BallSpeed;
     [Min(1)]
     [SerializeField] private int _BallDamage = 1;
 

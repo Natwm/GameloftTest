@@ -18,19 +18,17 @@ public class DeflectZone : MonoBehaviour
     public LayerMask bulletLayer;
 
     Vector3 mousePos;
-
     Vector3 _FirstPosition;
     Vector3 _CurrentPosition;
 
     GameObject ball;
 
+    Timer GameOverTimer;
+
     [Header("audio")]
     [SerializeField] private List<AudioClip> launchSounds;
     private AudioSource _Audio;
 
-    public GameObject Ball { get => ball; set => ball = value; }
-    public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
-    public Vector3 FirstPosition { get => _FirstPosition; set => _FirstPosition = value; }
 
     private void Awake()
     {
@@ -43,6 +41,7 @@ public class DeflectZone : MonoBehaviour
     {
         _Audio = GetComponent<AudioSource>();
         m_AmountOfShoot = ScoreManager.instance.parametter.InitialAmountOfShoot;
+        GameOverTimer1 = new Timer(5, GameManager.instance.GameOver);
     }
 
     // Update is called once per frame
@@ -128,9 +127,9 @@ public class DeflectZone : MonoBehaviour
             {
                 m_AmountOfShoot--;
 
-                if (m_AmountOfShoot <= 0)
+                if (m_AmountOfShoot == 0)
                 {
-                    GameManager.instance.GameOver();
+                    GameOverTimer1.Play();
                     return;
                 }
             }
@@ -178,4 +177,12 @@ public class DeflectZone : MonoBehaviour
         if (pos.point != Vector3.zero)
             Gizmos.DrawWireSphere(pos.point, radius);
     }
+
+    #region GETTER && SETTER
+    public GameObject Ball { get => ball; set => ball = value; }
+    public Vector3 CurrentPosition { get => _CurrentPosition; set => _CurrentPosition = value; }
+    public Vector3 FirstPosition { get => _FirstPosition; set => _FirstPosition = value; }
+    public Timer GameOverTimer1 { get => GameOverTimer; set => GameOverTimer = value; }
+
+    #endregion
 }

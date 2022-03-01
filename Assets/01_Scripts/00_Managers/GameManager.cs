@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        DeflectZone.instance.GameOverTimer1.Pause();
         print("GameOver");
         ScoreManager.instance.GetScore(Mathf.RoundToInt(levelTimer));
         DestroyAllBall();
